@@ -18,6 +18,11 @@ Vue.config.productionTip = false
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts 
 
+
+//导入中国地图
+import china from 'echarts/map/json/china.json'
+echarts.registerMap('china', china)
+
 new Vue({
   router,
   render: h => h(App)
