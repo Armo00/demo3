@@ -7,11 +7,16 @@ import './assets/css/global.css'
 
 import axios from 'axios'
 // 配置请求根路径
+
 axios.defaults.baseURL = ''
 Vue.prototype.$http = axios
 
 
 Vue.config.productionTip = false
+
+//导入echart
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts 
 
 new Vue({
   router,
