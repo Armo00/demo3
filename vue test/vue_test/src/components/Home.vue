@@ -18,22 +18,24 @@
                          text-color="#fff"
                          active-text-color="#409EFF"
                          :collapse="isCollapse"
-                         :collapse-transition="false">
-                    <el-menu-item index="1" @click="goMap">
+                         :collapse-transition="false"
+                         router
+                         :default-active="$route.path">
+                    <el-menu-item index="/map">
                         <!-- 图标 -->
                         <i class="el-icon-map-location"></i>
                         <!-- 文本 -->
                         <span slot="title">导航一</span>
                     </el-menu-item>
-                    <el-menu-item index="2" @click="goChart">
+                    <el-menu-item index="/chart">
                         <i class="el-icon-s-data"></i>
                         <span slot="title">导航二</span>
                     </el-menu-item>
-                    <el-menu-item index="3" @click="goNews">
+                    <el-menu-item index="/news">
                         <i class="el-icon-s-comment"></i>
                         <span slot="title">导航三</span>
                     </el-menu-item>
-                    <el-menu-item index="4" @click="goRumors">
+                    <el-menu-item index="/rumors">
                         <i class="el-icon-reading"></i>
                         <span slot="title">导航四</span>
                     </el-menu-item>
@@ -42,6 +44,8 @@
 
             <!-- 右侧内容主体 -->
             <el-main>
+                <!-- 路由占位符 -->
+                <router-view></router-view>
                 <!-- 疫情地图页面 -->
                 <div v-show="mapPage" >
                     疫情地图
@@ -71,7 +75,7 @@
     export default {
         data() {
             return {
-                mapPage: true,
+                mapPage: false,
                 chartPage: false,
                 newsPage: false,
                 rumorsPage: false,
