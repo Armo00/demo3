@@ -16,11 +16,14 @@
     </div>
 </template>
 
+
 <script>
+
     export default {
         mounted() {
 
             this.drawLine();
+
 
         },
         data() {
@@ -106,6 +109,7 @@
             }
         },
         methods: {
+            
 
 
 
@@ -149,7 +153,9 @@
                                 }
                             }
                             return res;
-                        }
+
+                        },
+                        
                     },
                     legend: {
                         orient: 'vertical',
@@ -229,7 +235,14 @@
                 window.onresize = function () {
                     resizeMyChartContainer();
                     myChartChina.resize();
-                }
+                };
+                
+                let myChart = this.$echarts.init(document.getElementById('myChartChina'))
+                myChart.on('click', function (param) {
+                    console.log(param.data.name);
+                    this.$message.success('点击事件');
+                    
+                });
             },
            
         }
@@ -241,5 +254,7 @@
     .chinaMap {
         border: 3px solid #333744;
         transform: translate(0%,0%);
+        
     }
+    
 </style>
