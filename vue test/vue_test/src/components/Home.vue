@@ -25,19 +25,19 @@
                         <!-- 图标 -->
                         <i class="el-icon-map-location"></i>
                         <!-- 文本 -->
-                        <span slot="title">导航一</span>
+                        <span slot="title">疫情地图</span>
                     </el-menu-item>
                     <el-menu-item index="/chart">
                         <i class="el-icon-s-data"></i>
-                        <span slot="title">导航二</span>
+                        <span slot="title">疫情图表</span>
                     </el-menu-item>
                     <el-menu-item index="/news">
                         <i class="el-icon-s-comment"></i>
-                        <span slot="title">导航三</span>
+                        <span slot="title">新闻</span>
                     </el-menu-item>
                     <el-menu-item index="/rumors">
                         <i class="el-icon-reading"></i>
-                        <span slot="title">导航四</span>
+                        <span slot="title">谣言</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
