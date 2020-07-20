@@ -19,8 +19,10 @@
 <script>
     export default {
         mounted() {
-            this.$message.success('aaa');
+            let that = this;
+            //this.$message.success('aaa');
             this.drawLine();
+            //this.$message.success('aaa');
         },
         data() {
             return {
@@ -111,7 +113,8 @@
                 // 基于准备好的dom，初始化echarts实例
                 var myChartContainer = document.getElementById('myChartChina');
                 var resizeMyChartContainer = function () {
-                    myChartContainer.style.width = (document.body.offsetWidth / 1.5) + 'px'//页面一半的大小
+                    //myChartContainer.style.width = (document.body.offsetWidth / 1.5) + 'px'//页面一半的大小
+                    myChartContainer.style.width = '100%';
                 }
                 resizeMyChartContainer();
                 var myChartChina = this.$echarts.init(myChartContainer);
@@ -158,9 +161,9 @@
                         max: 2000,
                         left: '10%',
                         top: 'bottom',
-                        text: ['高', '低'],
+                        text: ['高','中', '低'],
                         calculable: true,
-                        color: ['#DC143C', '#F0FFFF']
+                        color: ['#500000','#DC143C', '#F0FFFF']
                     },
                     selectedMode: 'single',
                     series: [
@@ -226,7 +229,15 @@
                 window.onresize = function () {
                     resizeMyChartContainer();
                     myChartChina.resize();
-                }
+                };
+                let that = this;
+                let myChart = this.$echarts.init(document.getElementById('myChartChina'))
+                myChart.on('click', function (param) {
+                    console.log(param.data.name);
+                    that.$message.success('点击' + param.data.name);
+
+                });
+
             },
            
         }
