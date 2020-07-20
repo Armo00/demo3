@@ -1,3 +1,7 @@
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
@@ -22,11 +26,8 @@ Vue.prototype.$echarts = echarts
 //导入中国地图
 import china from 'echarts/map/json/china.json'
 echarts.registerMap('china', china)
-
-import Element from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-
 Vue.use(Element)
+
 
 
 
