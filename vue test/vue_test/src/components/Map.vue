@@ -23,6 +23,7 @@
         mounted() {
 
             this.drawLine();
+            this.$message.success('登陆成功！')
 
 
         },
@@ -240,8 +241,7 @@
                 let myChart = this.$echarts.init(document.getElementById('myChartChina'))
                 myChart.on('click', function (param) {
                     console.log(param.data.name);
-                    this.$message.success('点击事件');
-                    
+                    this.$message.success('点击事件');                
                 });
             },
            

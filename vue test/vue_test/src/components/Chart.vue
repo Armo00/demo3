@@ -1,5 +1,5 @@
 ﻿<template>
-    <div>
+    <el-form>
         <!-- 面包屑导航区域 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
@@ -8,7 +8,7 @@
 
         <!-- 卡片视图区域 -->
         <el-card class="box-card">
-            <div class="demo-input-suffix">
+            <el-form>
                 <el-row :gutter="20">
                     <el-col :span="3" class="title">疫苗投放数量：</el-col>
                     <el-col :span="4" class="title">
@@ -46,10 +46,20 @@
                         </el-select>
                     </div>
                 </el-row>
-            </div>
+                <el-row>
+                    <el-form-item v-for="(domain, index) in dynamicValidateForm.domains" :label="'管制级别' + index+'：'" class="title">
+                        <el-input placeholder="请选择" v-model="domain.value"></el-input>
+                        <el-button @click.prevent="removeDomain(domain)">删除</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+                        <el-button @click="addDomain">新增管制级别</el-button>
+                        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
+                    </el-form-item>
+                </el-row>
+            </el-form>
         </el-card>
-
-    </div>
+    </el-form>
 </template>
 
 <script>
@@ -58,7 +68,40 @@
             return {
                 input1: '',
                 input2: '',
-                input3: ''
+                input3: '',
+                dynamicValidateForm: {
+                    domains: [{
+                        value: ''
+                    }]
+                }
+            }
+        },
+
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            removeDomain(item) {
+                var index = this.dynamicValidateForm.domains.indexOf(item)
+                if (index !== -1) {
+                    this.dynamicValidateForm.domains.splice(index, 1)
+                }
+            },
+            addDomain() {
+                this.dynamicValidateForm.domains.push({
+                    value: '',
+                    key: Date.now()
+                });
             }
         }
     }
@@ -67,5 +110,12 @@
 <style lang="less" scoped>
     .title {
         line-height: 50px;
+    }
+    .grid-content {
+        border-radius: 4px;
+        min-height: 40px;
+    }
+    .bg-purple {
+        background: #e5e9f2;
     }
 </style>
