@@ -19,7 +19,7 @@
 <script>
     export default {
         mounted() {
-
+            this.$message.success('aaa');
             this.drawLine();
         },
         data() {
