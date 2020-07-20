@@ -29,6 +29,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(Element)
 
 
+
 new Vue({
     router,
     render: h => h(App)
