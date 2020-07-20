@@ -16,16 +16,11 @@
     </div>
 </template>
 
-
 <script>
-
     export default {
         mounted() {
-
+            this.$message.success('aaa');
             this.drawLine();
-            this.$message.success('登陆成功！')
-
-
         },
         data() {
             return {
@@ -110,16 +105,13 @@
             }
         },
         methods: {
-            
-
 
 
             drawLine(showData) {
                 // 基于准备好的dom，初始化echarts实例
                 var myChartContainer = document.getElementById('myChartChina');
                 var resizeMyChartContainer = function () {
-                    //myChartContainer.style.width = (document.body.offsetWidth / 1.18) + 'px'//页面一半的大小
-                    myChartContainer.style.width = '100%';
+                    myChartContainer.style.width = (document.body.offsetWidth / 1.5) + 'px'//页面一半的大小
                 }
                 resizeMyChartContainer();
                 var myChartChina = this.$echarts.init(myChartContainer);
@@ -154,9 +146,7 @@
                                 }
                             }
                             return res;
-
-                        },
-                        
+                        }
                     },
                     legend: {
                         orient: 'vertical',
@@ -168,9 +158,9 @@
                         max: 2000,
                         left: '10%',
                         top: 'bottom',
-                        text: ['高','中', '低'],
+                        text: ['高', '低'],
                         calculable: true,
-                        color: ['#500000','#DC143C', '#F0FFFF']
+                        color: ['#DC143C', '#F0FFFF']
                     },
                     selectedMode: 'single',
                     series: [
@@ -236,13 +226,7 @@
                 window.onresize = function () {
                     resizeMyChartContainer();
                     myChartChina.resize();
-                };
-                
-                let myChart = this.$echarts.init(document.getElementById('myChartChina'))
-                myChart.on('click', function (param) {
-                    console.log(param.data.name);
-                    this.$message.success('点击事件');                
-                });
+                }
             },
            
         }
@@ -254,7 +238,5 @@
     .chinaMap {
         border: 3px solid #333744;
         transform: translate(0%,0%);
-        
     }
-    
 </style>

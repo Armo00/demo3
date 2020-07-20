@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 
 //导入echart
 import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts 
 
 
 //导入中国地图
