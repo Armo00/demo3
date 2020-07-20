@@ -7,56 +7,40 @@
         </el-breadcrumb>
 
         <!-- 卡片视图区域 -->
-        <el-card class="box-card">
-            <el-form>
-                <el-row :gutter="20">
-                    <el-col :span="3" class="title">疫苗投放数量：</el-col>
-                    <el-col :span="4" class="title">
-                        <el-input placeholder="请输入内容"
-                                  v-model="input1"
-                                  clearable>
-                        </el-input>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="3" class="title">疫苗投放周期：</el-col>
-                    <el-col :span="4" class="title">
-                        <el-input placeholder="请输入内容"
-                                  v-model="input2"
-                                  clearable>
-                        </el-input>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="3" class="title">疫苗的有效性：</el-col>
-                    <el-col :span="4" class="title">
-                        <el-input placeholder="请输入内容"
-                                  v-model="input3"
-                                  clearable>
-                        </el-input>
-                    </el-col>
-                </el-row>
-                <el-row :gutter="20">
-                    <el-col :span="3" class="title">管制级别：</el-col>
-                    <div class="title">
-                        <el-select v-model="select" slot="prepend" placeholder="请选择">
-                            <el-option label="餐厅名" value="1"></el-option>
-                            <el-option label="订单号" value="2"></el-option>
-                            <el-option label="用户电话" value="3"></el-option>
-                        </el-select>
-                    </div>
-                </el-row>
-                <el-row>
-                    <el-form-item v-for="(domain, index) in dynamicValidateForm.domains" :label="'管制级别' + index+'：'" class="title">
-                        <el-input placeholder="请选择" v-model="domain.value"></el-input>
-                        <el-button @click.prevent="removeDomain(domain)">删除</el-button>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-                        <el-button @click="addDomain">新增管制级别</el-button>
-                        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
-                    </el-form-item>
-                </el-row>
+        <el-card>
+            <!-- 第一行三个输入框 -->
+            <el-form :inline="true">
+                <el-form-item label="疫苗投放数量：">
+                    <el-input placeholder="请输入内容" v-model="input1" clearable class="inputBox"></el-input>
+                </el-form-item>
+                <el-form-item label="疫苗投放周期：" label-width="135px">
+                    <el-input placeholder="请输入内容" v-model="input2" clearable class="inputBox"></el-input>
+                </el-form-item>
+                <el-form-item label="疫苗的有效性：" label-width="135px">
+                    <el-input placeholder="请输入内容" v-model="input3" clearable class="inputBox"></el-input>
+                </el-form-item>
+            </el-form>
+            <!-- 第二行 动态增减表单项 -->
+            <el-form ref="controlLevelForm" :model="controlLevelForm" label-width="110px">
+                <el-form-item v-for="(domain, index) in controlLevelForm.domains"
+                              :label="'管制级别' + index + '：'"
+                              :key="domain.key"
+                              :prop="'domains.' + index + '.value'">
+                    <el-select v-model="domain.value" placeholder="请选择" class="inputBox">
+                        <el-option label="级别一" value="1"></el-option>
+                        <el-option label="级别二" value="2"></el-option>
+                        <el-option label="级别三" value="3"></el-option>
+                    </el-select>
+                    <el-date-picker v-model="domain.date1" type="date" placeholder="选择起始日期" class="dateBox"></el-date-picker>
+                    <el-date-picker v-model="domain.date2" type="date" placeholder="选择结束日期" class="dateBox"></el-date-picker>
+                    <el-button type="danger" @click.prevent="removeDomain(domain)" class="btns">删除</el-button>
+                </el-form-item>
+                <!-- 增减表单项 -->
+                <el-form-item>
+                    <el-button @click="addDomain">新增管制级别</el-button>
+                    <el-button @click="resetForm('controlLevelForm')">重置管制级别</el-button>
+                    <el-button type="primary" @click="submitForm('controlLevelForm')">提交</el-button>
+                </el-form-item>
             </el-form>
         </el-card>
     </el-form>
@@ -69,9 +53,12 @@
                 input1: '',
                 input2: '',
                 input3: '',
-                dynamicValidateForm: {
+                
+                controlLevelForm: {
                     domains: [{
-                        value: ''
+                        value: '',
+                        date1: '',
+                        date2: ''
                     }]
                 }
             }
@@ -92,13 +79,13 @@
                 this.$refs[formName].resetFields();
             },
             removeDomain(item) {
-                var index = this.dynamicValidateForm.domains.indexOf(item)
+                var index = this.controlLevelForm.domains.indexOf(item)
                 if (index !== -1) {
-                    this.dynamicValidateForm.domains.splice(index, 1)
+                    this.controlLevelForm.domains.splice(index, 1)
                 }
             },
             addDomain() {
-                this.dynamicValidateForm.domains.push({
+                this.controlLevelForm.domains.push({
                     value: '',
                     key: Date.now()
                 });
@@ -108,14 +95,14 @@
 </script>
 
 <style lang="less" scoped>
-    .title {
-        line-height: 50px;
+    .inputBox {
+        width: 150px;
     }
-    .grid-content {
-        border-radius: 4px;
-        min-height: 40px;
+    .btns {
+        margin-left:10px;
     }
-    .bg-purple {
-        background: #e5e9f2;
+    .dateBox {
+        margin-left: 30px;
+        width: 200px;
     }
 </style>
