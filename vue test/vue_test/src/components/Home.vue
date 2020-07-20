@@ -43,9 +43,9 @@
             <!-- 右侧内容主体 -->
             <el-main>
                 <!-- 疫情地图页面 -->
-                <div v-show="mapPage">
+                <div v-show="mapPage" >
                     疫情地图
-                    <div id="myChartChina" :style="{width: '1000px', height: '1000px'}"></div>
+                    <div id="myChartChina" :style="{width: '100%', height: '800px'}" class="chinaMap"></div>
                 </div>
 
                 <!-- 图表页面 -->
@@ -120,7 +120,7 @@
                 // 基于准备好的dom，初始化echarts实例
                 var myChartContainer = document.getElementById('myChartChina');
                 var resizeMyChartContainer = function () {
-                    myChartContainer.style.width = (document.body.offsetWidth / 2) + 'px'//页面一半的大小
+                    myChartContainer.style.width = (document.body.offsetWidth / 1.51) + 'px'//页面一半的大小
                 }
                 resizeMyChartContainer();
                 var myChartChina = this.$echarts.init(myChartContainer);
@@ -268,4 +268,8 @@
         letter-spacing:0.2em;
         cursor:pointer;
     }
+    .chinaMap {
+        border: 3px solid #333744;
+    }
+    
 </style>
