@@ -235,7 +235,8 @@
                 myChart.on('click', function (param) {
                     console.log(param.data.name);
                     that.$message.success('点击' + param.data.name);
-
+                    window.sessionStorage.setItem('selectedProvince', param.data.name);
+                    that.$router.push('/chart');
                 });
 
             },

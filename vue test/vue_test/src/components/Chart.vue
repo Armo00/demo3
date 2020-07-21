@@ -77,11 +77,43 @@
         data() {
             return {
                 options: [
+                    { select: '中国', label: '中国' },
                     { select: '上海', label: '上海' },
                     { select: '北京', label: '北京' },
                     { select: '天津', label: '天津' },
+                    { select: '重庆', label: '重庆' },
+                    { select: '河北', label: '河北' },
+                    { select: '河南', label: '河南' },
+                    { select: '云南', label: '云南' },
+                    { select: '辽宁', label: '辽宁' },
+                    { select: '黑龙江', label: '黑龙江' },
+                    { select: '湖南', label: '湖南' },
+                    { select: '安徽', label: '安徽' },
+                    { select: '山东', label: '山东' },
+                    { select: '新疆', label: '新疆' },
+                    { select: '江苏', label: '江苏' },
+                    { select: '浙江', label: '浙江' },
+                    { select: '江西', label: '江西' },
+                    { select: '湖北', label: '湖北' },
+                    { select: '广西', label: '广西' },
+                    { select: '甘肃', label: '甘肃' },
+                    { select: '山西', label: '山西' },
+                    { select: '内蒙古', label: '内蒙古' },
+                    { select: '陕西', label: '陕西' },
+                    { select: '吉林', label: '吉林' },
+                    { select: '福建', label: '福建' },
+                    { select: '贵州', label: '贵州' },
+                    { select: '广东', label: '广东' },
+                    { select: '青海', label: '青海' },
+                    { select: '西藏', label: '西藏' },
+                    { select: '四川', label: '四川' },
+                    { select: '宁夏', label: '宁夏' },
+                    { select: '海南', label: '海南' },
+                    { select: '台湾', label: '台湾' },
+                    { select: '香港', label: '香港' },
+                    { select: '澳门', label: '澳门' }
                     ],
-                select: '',
+                select: '中国',
 
                 input1: '',
                 input2: '',
@@ -107,6 +139,13 @@
         },
         mounted() {
             // 基于准备好的dom，初始化echarts实例
+            const selectedProvince = window.sessionStorage.getItem('selectedProvince');
+            if (!selectedProvince) {
+                this.select = '中国';
+            }
+            else {
+                this.select=selectedProvince
+            };
             this.Chart0 = this.$echarts.init(document.getElementById('infoChart')) //echart2
             this.setChartOption0()
             this.Chart1 = this.$echarts.init(document.getElementById('chartEle1')) //echart1
@@ -116,7 +155,10 @@
         },
         methods: {
             selectTrigger(value) {
-                console.log(value)
+                console.log(value);
+                this.$message.success(value);
+                this.select = value;
+                window.sessionStorage.setItem('selectedProvince', value);
             },
 
             submitForm(formName) {

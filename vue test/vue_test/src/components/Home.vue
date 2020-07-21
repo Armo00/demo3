@@ -49,7 +49,6 @@
                 <!-- 疫情地图页面 -->
                 <div v-show="mapPage" >
                     疫情地图
-                    <div id="myChartChina" :style="{width: '100%', height: '800px'}" class="chinaMap"></div>
                 </div>
 
                 <!-- 图表页面 -->
