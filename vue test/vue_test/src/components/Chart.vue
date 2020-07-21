@@ -10,7 +10,7 @@
         <el-card>
             <!-- 选择区域 -->
             <el-form-item label="选择地区：">
-                <el-select v-model="select" placeholder="请选择" class="inputBox">
+                <el-select v-model="select" @change="selectTrigger" placeholder="请选择" class="inputBox">
                     <el-option v-for="item in options"
                                :key="item.select"
                                :label="item.label"
@@ -77,9 +77,9 @@
         data() {
             return {
                 options: [
-                    { select: '选项1', label: '上海' },
-                    { select: '选项2', label: '北京' },
-                    { select: '选项3', label: '天津' },
+                    { select: '上海', label: '上海' },
+                    { select: '北京', label: '北京' },
+                    { select: '天津', label: '天津' },
                     ],
                 select: '',
 
@@ -115,6 +115,10 @@
             this.setChartOption2()
         },
         methods: {
+            selectTrigger(value) {
+                console.log(value)
+            },
+
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
