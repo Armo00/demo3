@@ -8,7 +8,19 @@
 
         <!-- 卡片视图区域 -->
         <el-card>
-            <!--折线图区域-->
+            <!-- 选择区域 -->
+            <el-form-item label="选择地区：">
+                <el-select v-model="select" placeholder="请选择" class="inputBox">
+                    <el-option v-for="item in options"
+                               :key="item.select"
+                               :label="item.label"
+                               :value="item.select">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            
+
+            <!-- 折线图区域 -->
             <div>
                 <div class="chartbox0">
                     <div id="infoChart" style="height: 400px;margin: 0 auto;width: 100%;">
@@ -21,7 +33,7 @@
                     <div id="chartEle2" style="height: 400px;margin: 0 auto;width: 100%;"></div>
                 </div>
             </div>
-            
+
             <!-- 第一行三个输入框 -->
             <el-form :inline="true">
                 <el-form-item label="疫苗投放数量：">
@@ -64,6 +76,13 @@
     export default {
         data() {
             return {
+                options: [
+                    { select: '选项1', label: '上海' },
+                    { select: '选项2', label: '北京' },
+                    { select: '选项3', label: '天津' },
+                    ],
+                select: '',
+
                 input1: '',
                 input2: '',
                 input3: '',
