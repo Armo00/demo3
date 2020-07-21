@@ -18,7 +18,7 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            
+
 
             <!-- 折线图区域 -->
             <div>
@@ -34,18 +34,26 @@
                 </div>
             </div>
 
-            <!-- 第一行三个输入框 -->
-            <el-form :inline="true" class="inlineForm">
-                
-                <el-form-item label="疫苗投放周期：">
-                    <el-date-picker v-model="date3" type="date" placeholder="选择起始日期" class="dateBox2"></el-date-picker>
-                    <el-date-picker v-model="date4" type="date" placeholder="选择结束日期" class="dateBox"></el-date-picker>
-
+            <!-- 第一行 动态增减表单项 -->
+            <el-form ref="vaccineForm" :model="vaccineForm" label-width="110px" class="inlineForm">
+                <el-form-item v-for="(domain, index) in vaccineForm.domains"
+                              :label="'疫苗信息' + index + '：'"
+                              :key="domain.key"
+                              :prop="'domains.' + index + '.input1'">
+                    <el-input placeholder="请输入疫苗投放数量" v-model="domain.input1" clearable class="dateBox2"></el-input>
+                    <el-input placeholder="请输入疫苗的有效性" v-model="domain.input2" clearable class="dateBox"></el-input>
+                    <el-date-picker v-model="domain.date3" type="date" placeholder="选择投放的起始日期" class="dateBox"></el-date-picker>
+                    <el-date-picker v-model="domain.date4" type="date" placeholder="选择投放的结束日期" class="dateBox"></el-date-picker>
+                    <el-button type="danger" @click.prevent="removeDomain1(domain)" class="btns">删除</el-button>
                 </el-form-item>
-                <el-form-item label="疫苗的有效性：" label-width="135px">
-                    <el-input placeholder="请输入内容" v-model="input3" clearable class="inputBox"></el-input>
+                <!-- 增减表单项 -->
+                <el-form-item>
+                    <el-button @click="addDomain1">新增疫苗信息</el-button>
+                    <el-button @click="resetForm('vaccineForm')">重置疫苗信息</el-button>
+                    <el-button type="primary" @click="submitForm('vaccineForm')">提交</el-button>
                 </el-form-item>
             </el-form>
+
             <!-- 第二行 动态增减表单项 -->
             <el-form ref="controlLevelForm" :model="controlLevelForm" label-width="110px">
                 <el-form-item v-for="(domain, index) in controlLevelForm.domains"
@@ -57,7 +65,6 @@
                         <el-option label="级别二" value="2"></el-option>
                         <el-option label="级别三" value="3"></el-option>
                     </el-select>
-                    <el-input placeholder="请输入疫苗投放数量" v-model="domain.input1" clearable class="dateBox"></el-input>
                     <el-date-picker v-model="domain.date1" type="date" placeholder="选择起始日期" class="dateBox"></el-date-picker>
                     <el-date-picker v-model="domain.date2" type="date" placeholder="选择结束日期" class="dateBox"></el-date-picker>
                     <el-button type="danger" @click.prevent="removeDomain(domain)" class="btns">删除</el-button>
@@ -116,15 +123,19 @@
                     ],
                 select: '中国',
 
-                date3: '',
-                date4: '',
-                input2: '',
-                input3: '',
                 
+
+                vaccineForm: {
+                    domains: [{
+                        input1: '',
+                        input2: '',
+                        date3: '',
+                        date4: '',
+                    }]
+                },
                 controlLevelForm: {
                     domains: [{
                         value: '',
-                        input1: '',
                         date1: '',
                         date2: ''
                     }]
@@ -185,9 +196,21 @@
                     this.controlLevelForm.domains.splice(index, 1)
                 }
             },
+            removeDomain1(item) {
+                var index = this.vaccineForm.domains.indexOf(item)
+                if (index !== -1) {
+                    this.vaccineForm.domains.splice(index, 1)
+                }
+            },
             addDomain() {
                 this.controlLevelForm.domains.push({
                     value: '',
+                    key: Date.now()
+                });
+            },
+            addDomain1() {
+                this.vaccineForm.domains.push({
+                    input1: '',
                     key: Date.now()
                 });
             },
