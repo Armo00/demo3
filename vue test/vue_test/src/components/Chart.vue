@@ -35,12 +35,12 @@
             </div>
 
             <!-- 第一行三个输入框 -->
-            <el-form :inline="true">
-                <el-form-item label="疫苗投放数量：">
-                    <el-input placeholder="请输入内容" v-model="input1" clearable class="inputBox"></el-input>
-                </el-form-item>
-                <el-form-item label="疫苗投放周期：" label-width="135px">
-                    <el-input placeholder="请输入内容" v-model="input2" clearable class="inputBox"></el-input>
+            <el-form :inline="true" class="inlineForm">
+                
+                <el-form-item label="疫苗投放周期：">
+                    <el-date-picker v-model="date3" type="date" placeholder="选择起始日期" class="dateBox2"></el-date-picker>
+                    <el-date-picker v-model="date4" type="date" placeholder="选择结束日期" class="dateBox"></el-date-picker>
+
                 </el-form-item>
                 <el-form-item label="疫苗的有效性：" label-width="135px">
                     <el-input placeholder="请输入内容" v-model="input3" clearable class="inputBox"></el-input>
@@ -57,6 +57,7 @@
                         <el-option label="级别二" value="2"></el-option>
                         <el-option label="级别三" value="3"></el-option>
                     </el-select>
+                    <el-input placeholder="请输入疫苗投放数量" v-model="domain.input1" clearable class="dateBox"></el-input>
                     <el-date-picker v-model="domain.date1" type="date" placeholder="选择起始日期" class="dateBox"></el-date-picker>
                     <el-date-picker v-model="domain.date2" type="date" placeholder="选择结束日期" class="dateBox"></el-date-picker>
                     <el-button type="danger" @click.prevent="removeDomain(domain)" class="btns">删除</el-button>
@@ -115,13 +116,15 @@
                     ],
                 select: '中国',
 
-                input1: '',
+                date3: '',
+                date4: '',
                 input2: '',
                 input3: '',
                 
                 controlLevelForm: {
                     domains: [{
                         value: '',
+                        input1: '',
                         date1: '',
                         date2: ''
                     }]
@@ -137,6 +140,7 @@
 
             }
         },
+
         mounted() {
             // 基于准备好的dom，初始化echarts实例
             const selectedProvince = window.sessionStorage.getItem('selectedProvince');
@@ -153,6 +157,7 @@
             this.Chart2 = this.$echarts.init(document.getElementById('chartEle2')) //echart2
             this.setChartOption2()
         },
+
         methods: {
             selectTrigger(value) {
                 console.log(value);
@@ -341,14 +346,20 @@
 </script>
 
 <style lang="less" scoped>
+    .inlineForm{
+        margin-top: 20px;
+    }
     .inputBox {
-        width: 150px;
+        width: 200px;
     }
     .btns {
         margin-left:10px;
     }
     .dateBox {
         margin-left: 30px;
+        width: 200px;
+    }
+    .dateBox2 {
         width: 200px;
     }
     .chartbox0 {
