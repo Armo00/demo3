@@ -59,7 +59,7 @@
             login() {
                 this.$refs.loginFormRef.validate(valid => {
                     if (!valid) return;
-                    const result = this.$http.post('http://127.0.0.1:7777/login', this.loginForm).then(res => {
+                    const result = this.$http.post('http://192.168.31.87:7777/login', this.loginForm).then(res => {
                         console.log(res);
                         if (res.data.return_code !== 1) return this.$message.error('登陆失败！');
                         this.$message.success('登陆成功！');
@@ -90,6 +90,7 @@
         top: 50%;
         transform: translate(-50%,-50%);
         box-shadow: 0 0 4px #ddd;
+    
         .avatar_box
     {
         height:130px;
