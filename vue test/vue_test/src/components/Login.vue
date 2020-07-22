@@ -29,6 +29,7 @@
     export default {
         data() {
             return {
+                webAddress: 'http://192.168.31.124:5000',
                 // 这是登录表单的数据绑定对象
                 loginForm: {
                     username: 'admin',
@@ -59,7 +60,7 @@
             login() {
                 this.$refs.loginFormRef.validate(valid => {
                     if (!valid) return;
-                    const result = this.$http.post('http://192.168.31.87:7777/login', this.loginForm).then(res => {
+                    const result = this.$http.post(this.webAddress +'/login', this.loginForm).then(res => {
                         console.log(res);
                         if (res.data.return_code !== 1) return this.$message.error('登陆失败！');
                         this.$message.success('登陆成功！');
