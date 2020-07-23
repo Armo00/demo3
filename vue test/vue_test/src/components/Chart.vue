@@ -35,26 +35,6 @@
             </div>
 
             <!-- 第一行 动态增减表单项 -->
-            <el-form ref="vaccineForm" :model="vaccineForm" label-width="110px" class="inlineForm">
-                <el-form-item v-for="(domain, index) in vaccineForm.domains"
-                              :label="'疫苗信息' + index + '：'"
-                              :key="domain.key"
-                              :prop="'domains.' + index + '.input1'">
-                    <el-input placeholder="请输入疫苗投放数量" v-model="domain.input1" clearable class="dateBox2"></el-input>
-                    <el-input placeholder="请输入疫苗的有效性" v-model="domain.input2" clearable class="dateBox"></el-input>
-                    <el-date-picker v-model="domain.date3" type="date" value-format="yyyy-MM-dd" placeholder="选择投放的起始日期" class="dateBox"></el-date-picker>
-                    <el-date-picker v-model="domain.date4" type="date" value-format="yyyy-MM-dd" placeholder="选择投放的结束日期" class="dateBox"></el-date-picker>
-                    <el-button type="danger" @click.prevent="removeDomain1(domain)" class="btns">删除</el-button>
-                </el-form-item>
-                <!-- 增减表单项 -->
-                <el-form-item>
-                    <el-button @click="addDomain1">新增疫苗信息</el-button>
-                    <el-button @click="resetForm('vaccineForm')">重置疫苗信息</el-button>
-                    <!--
-                    <el-button type="primary" @click="submitForm('vaccineForm')">提交</el-button>
-                    -->
-                </el-form-item>
-            </el-form>
 
             <!-- 第二行 动态增减表单项 -->
             <el-form ref="controlLevelForm" :model="controlLevelForm" label-width="110px">
@@ -63,12 +43,18 @@
                               :key="domain.key"
                               :prop="'domains.' + index + '.value'">
                     <el-select v-model="domain.value" placeholder="请选择" class="inputBox">
-                        <el-option label="级别一" value="1"></el-option>
-                        <el-option label="级别二" value="2"></el-option>
-                        <el-option label="级别三" value="3"></el-option>
+                        <el-option label="级别一" value="0.05"></el-option>
+                        <el-option label="级别二" value="0.15"></el-option>
+                        <el-option label="级别三" value="0.5"></el-option>
+                        <el-option label="级别四" value="0.8"></el-option>
+                        <el-option label="无管制" value="1"></el-option>
+
                     </el-select>
-                    <el-date-picker v-model="domain.date1" type="date" value-format="yyyy-MM-dd" placeholder="选择起始日期" class="dateBox"></el-date-picker>
-                    <el-date-picker v-model="domain.date2" type="date" value-format="yyyy-MM-dd" placeholder="选择结束日期" class="dateBox"></el-date-picker>
+
+                    <el-date-picker v-model="domain.date1" type="date" value-format="yyyy-MM-dd" placeholder="选择生效日期" class="dateBox"></el-date-picker>
+                    <!--<el-date-picker v-model="domain.date2" type="date" value-format="yyyy-MM-dd" placeholder="选择结束日期" class="dateBox"></el-date-picker>-->
+                    <el-input placeholder="疫苗投放数量(可选)" v-model="domain.vaccineNum" clearable class="dateBox"></el-input>
+                    <el-input placeholder="疫苗的有效性(可选)" v-model="domain.vaccineEffectiveness" clearable class="dateBox"></el-input>
                     <el-button type="danger" @click.prevent="removeDomain(domain)" class="btns">删除</el-button>
                 </el-form-item>
                 <!-- 增减表单项 -->
@@ -140,7 +126,9 @@
                     domains: [{
                         value: '',
                         date1: '',
-                        date2: ''
+                        date2: '',
+                        vaccineNum: '',
+                        vaccineEffectiveness:'',
                     }]
                 },
                 countryTotalData: [25, 28, 28, 32, 36, 49, 51, 60, 103, 125, 170, 241, 330, 478, 643, 891, 1146, 1530, 2042, 2649, 3273, 3994, 4738, 5911, 6993, 8094, 9415, 10851, 12557, 14378, 16153, 18266, 20674, 22908, 24758, 27354, 29776, 32532, 36156, 39035, 41675, 44519, 47248, 49902, 52097, 53781, 55465, 57131, 58672, 59970, 61555, 62874, 64204, 65649, 67022, 67863, 68799, 69725, 70547, 71284, 71876, 72382, 72841, 73299, 73791, 74196, 74737, 75122, 75600, 75937, 76225, 76415, 76604, 76786, 76984, 77210, 77348, 77450, 77586, 77711, 77838, 77935, 78020, 78145, 78262, 78389, 78504, 77635, 77744, 77825, 77895, 77978, 78042, 78147, 78236, 78362, 78450, 78558, 78664, 78729, 78785, 78845, 78905, 78939, 79016, 79126, 79204, 79268, 79324, 79401, 79488, 79533, 79566, 79594, 79621, 79644, 79668, 79682, 79701, 79708, 79715, 79722, 79736, 79740, 79746, 79757, 79767, 79774, 79786, 79791, 79802, 79807, 79812, 79824, 79824, 79831, 79842, 79848, 79853, 79864, 79875, 79882, 79887, 79895, 79903, 79905, 79913, 79922, 79926, 79944, 79949, 79963, 79968, 79969, 79982, 79990, 79997, 80007, 80015, 80026, 80044, 80054, 80068, 80087, 80102],
@@ -155,7 +143,9 @@
                     realTotalData: [],
                     realIncData:[],
                     projectedTotalData: [],
-                    projectedIncData:[],
+                    projectedIncData: [],
+                    defaultTotalData: [],
+                    defaultIncData:[],
                 },
                 populationData: {
                     totalPopulation: 717118675 + 680596325,
@@ -179,6 +169,7 @@
             else {
                 this.select = selectedProvince;
             };
+            this.selectAlert();
             this.getPopulationData();//获取人口数据
             this.getInfectionData();//获取真实感染情况数据
             this.getPredictData();//获取模型计算数据
@@ -193,6 +184,17 @@
 
         methods: {
             //初始化人口数据
+            selectAlert() {
+                if (this.select == '青海' || this.select == '西藏') {
+                    this.$message.error('您选择的地区数据量不足,不支持模拟计算！');
+                    this.select == '全国';
+                    this.charData.defaultIncData = [];
+                    this.charData.defaultTotalData = [];
+                    this.charData.projectedIncData = [];
+                    this.charData.projectedTotalData = [];
+
+                };
+            },
             getPopulationData() {
                 let that = this;
                 //console.log(this.select);
@@ -223,21 +225,45 @@
             },
             getPredictData() {
                 let that = this;
-                var sendData = { mode: 'requestInfectionData', key: this.select };
-                /*
-                const result = this.$http.post(this.webAddress +'/predict', sendData).then(res => {
-
-                    console.log(res.data);
+                var sendData = { mode: 'requestInfectionData', area: this.select };
+                
+                const result = this.$http.post(this.webAddress + '/predict_2', sendData).then(res => {
+                    
+                    //console.log(res.data);
+                    //console.log(this.charData.dateDate.length);
+                    this.charData.defaultTotalData = res.data.small_elephant;
+                    this.charData.defaultIncData = res.data.increase_elephant;
+                    //console.log(this.charData.defaltTotalData);
+                    if (this.select=='湖北'||this.select=='全国'){
+                        var k1 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        var k2 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        for (var i = 0; i < res.data.increase_elephant.length - 9; i++) {
+                            k1.push(res.data.increase_elephant[i])
+                            k2.push(res.data.small_elephant[i])
+                        }
+                        this.charData.defaultTotalData = k2;
+                        this.charData.defaultIncData = k1;
+                        console.log(this.charData);
+                    };
+                    
                     this.setChartOption();
                     this.setChartOption2();
-                });*/
+                });
             },
             //变更选定的地区所需要的执行的操作
             selectTrigger(value) {
                 //console.log(value);
-                this.$message.success(value);
+                
+                //this.$message.success(value);
                 this.select = value;
-                window.sessionStorage.setItem('selectedProvince', value);
+                this.selectAlert();
+                window.sessionStorage.setItem('selectedProvince', this.select);
+                this.charData.defaultIncData = [];
+                this.charData.defaultTotalData = [];
+                this.charData.projectedIncData = [];
+                this.charData.projectedTotalData = [];
+                this.charData.realIncData = [];
+                this.charData.realTotalData = [];
                 this.getPopulationData();
                 this.getInfectionData();
                 this.getPredictData();
@@ -252,15 +278,53 @@
                         return false;
                     }
                 });
-            },*/
+            },
             submitForm() {
                 //console.log(this.controlLevelForm);
                 //console.log(this.vaccineForm.domains[0].input1);
-                var sendData = { 'r1': this.vaccineForm.domains[0].input1, 'r2': this.vaccineForm.domains[0].input2, 'area': this.select }
+                var sendData = { 'r1': this.controlLevelForm.domains[0].vaccineNum, 'r2': this.controlLevelForm.domains[0].vaccineEffectiveness, 'area': this.select }
+                console.log(sendData)
                 const result = this.$http.post(this.webAddress + '/elephant', sendData).then(res => {
                     console.log(res.data);
                     this.charData.dateDate = res.data.big_elephant;
                     this.charData.projectedTotalData = res.data.small_elephant;
+                    this.setChartOption();
+                    this.setChartOption2();
+                });
+            },*/
+            submitForm() {
+                //console.log(this.controlLevelForm.domains);
+                var tem =  this.controlLevelForm.domains;
+                var result = [];
+                for (var i = 0; i < tem.length; i++) {
+                    var temp = { date1: '', date2: '', r: '', N: '' };
+                    temp.date1 = tem[i].date1;
+                    temp.r = tem[i].value;
+                    if (tem[i].vaccineEffectiveness == '' || tem[i].vaccineNum == '' || tem[i].vaccineNum == null || tem[i].vaccineEffectiveness ==null) {
+                        temp.N = 0;
+                    }
+                    else {
+                        temp.N = Math.round(tem[i].vaccineEffectiveness * tem[i].vaccineNum);
+                    };
+                    
+                    if (i == tem.length - 1) {
+                        temp.date2 = '2020-07-11'
+                    }
+                    else {
+                        temp.date2 = tem[i+1].date1;
+                    };
+                    //console.log(temp);
+                    result.push(temp);           
+                };
+                var sendData = {area:this.select, data:result };
+                
+                const accquired = this.$http.post(this.webAddress + '/predict', sendData).then(res => {
+                    console.log(res.data);
+                    /*
+                    this.charData.dateDate = res.data.big_elephant;
+                    this.charData.projectedTotalData = res.data.small_elephant;*/
+                    this.charData.projectedTotalData = res.data.predict_data;
+                    this.charData.projectedIncData = res.data.increase_data;
                     this.setChartOption();
                     this.setChartOption2();
                 });
@@ -381,11 +445,20 @@
                             smooth: true
                         },
                         {
-                            name: '预期累计感染人数',
+                            name: '自定义累计感染人数',
                             type: 'line',
+                            color: '#FF1493',
                             data: this.charData.projectedTotalData,
                             smooth: true,
                             
+                        },
+                        {
+                            name: '模拟累计感染人数',
+                            type: 'line',
+                            
+                            data: this.charData.defaultTotalData,
+                            smooth: true,
+
                         },
                     ]
                 };
@@ -429,11 +502,20 @@
                             color: '#FF8C00'
                         },
                         {
-                            name: '预期新增感染人数',
+                            name: '自定义新增感染人数',
                             type: 'line',
+                            color: '#FF1493',
                             data: this.charData.projectedIncData,
                             smooth: true,
                             
+                        },
+                        {
+                            name: '模拟新增感染人数',
+                            type: 'line',
+
+                            data: this.charData.defaultIncData,
+                            smooth: true,
+
                         },
                     ]
                 };
