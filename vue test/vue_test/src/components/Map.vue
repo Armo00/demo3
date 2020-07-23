@@ -26,6 +26,8 @@
         },
         data() {
             return {
+                webAddress: 'http://192.168.31.160:8000',
+
                 currentStatus: {
                     name: '当前感染人数',
                     data: [

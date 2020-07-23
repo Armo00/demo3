@@ -29,7 +29,7 @@
     export default {
         data() {
             return {
-                webAddress: 'http://192.168.31.124:5000',
+                webAddress: 'http://192.168.31.160:8000',
                 // 这是登录表单的数据绑定对象
                 loginForm: {
                     username: 'admin',
