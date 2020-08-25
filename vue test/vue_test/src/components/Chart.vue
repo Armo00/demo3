@@ -72,7 +72,7 @@
     export default {
         data() {
             return {
-                webAddress:'http://192.168.31.124:5000',
+                webAddress:'http://192.168.31.160:8000',
                 options: [
                     { select: '全国', label: '全国' },
                     { select: '上海', label: '上海' },
